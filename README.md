@@ -70,12 +70,6 @@ kalpha_streamlit/
 │   ├── 5_disagreements.py
 │   ├── 6_results.py
 │   └── 7_report.py
-│
-└── test_data/                  # Sample data files
-    ├── ICR_a.xlsx
-    ├── ICR_b.xlsx
-    ├── ICR_c.xlsx
-    └── ICR_d.xlsx
 ```
 
 ---
