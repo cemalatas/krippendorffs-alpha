@@ -2,7 +2,6 @@
 
 A comprehensive Streamlit web application for computing intercoder reliability statistics, with a focus on Krippendorff's Alpha. This tool serves as both a calculator and an educational platform, featuring AI-powered explanations via Claude.
 
-
 ## What This App Does
 
 This application calculates intercoder reliability statistics for content analysis research. It helps researchers determine how consistently multiple coders (raters) categorize the same content.
@@ -170,24 +169,6 @@ This app uses the same underlying `krippendorff` Python library. To verify calcu
 2. Expand **"Verify Data Before Analysis"**
 3. Select a single variable
 4. Compare the displayed alpha (6 decimals) with ReCal's output
-
----
-
-## Troubleshooting
-
-### "Please enter your API key" error
-The AI features require an Anthropic API key. Enter it on the Welcome page or skip AI features.
-
-### Calculation discrepancy with ReCal
-- Ensure you're comparing the same variable (not "Overall Alpha" which is a mean)
-- Verify the correct columns are selected in Step 3
-- Check measurement level matches (nominal vs ordinal)
-
-### Streamlit asks for email on startup
-Run with the headless flag:
-```bash
-streamlit run app.py --server.headless true
-```
 
 ---
 
