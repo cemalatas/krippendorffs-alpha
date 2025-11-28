@@ -98,10 +98,10 @@ kalpha_streamlit/
 │   └── 7_report.py
 │
 └── test_data/                  # Sample data files
-    ├── ICR_Duygu.xlsx
-    ├── ICR_ELIF.xlsx
-    ├── ICR_ERIN.xlsx
-    └── ICR_NAZLI.xlsx
+    ├── ICR_a.xlsx
+    ├── ICR_b.xlsx
+    ├── ICR_c.xlsx
+    └── ICR_d.xlsx
 ```
 
 ---
@@ -225,7 +225,6 @@ streamlit run app.py --server.headless true
 
 ## Based On
 
-- **Computation Core**: Adapted from `/Users/cemalatas/Desktop/vscode/okul/intercoder_rel/icr_krippendorff_compute.py`
 - **Reference**: [ReCal](https://github.com/dfreelon/recal) by Deen Freelon
 - **Methodology**: Krippendorff, K. (2004). *Content Analysis: An Introduction to Its Methodology*
 
@@ -233,4 +232,4 @@ streamlit run app.py --server.headless true
 
 ## Author
 
-Created for intercoder reliability analysis in content analysis research.
+Cemal Ataş
