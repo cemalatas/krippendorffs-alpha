@@ -43,11 +43,14 @@ with st.expander("Learn More: Interpreting Alpha Values"):
 st.markdown("---")
 
 # API Key Setup
-st.header("Setup: Enter Your API Key")
+st.header("Setup: API Key (Optional)")
 
 st.markdown("""
-This app uses **Claude Opus 4.5** to provide educational explanations and generate reports.
+This app can use **Claude Opus 4.5** to provide educational explanations and generate AI-powered reports.
 Your API key is stored only in your browser session and never saved.
+
+**Note:** The API key is optional. You can skip this step and still use all calculation features.
+AI-powered explanations will be disabled if you skip.
 """)
 
 api_key = st.text_input(
@@ -57,35 +60,48 @@ api_key = st.text_input(
     help="Get your API key from https://console.anthropic.com/",
 )
 
-if st.button("Save API Key", type="primary"):
-    if api_key.strip():
-        try:
-            from core.llm_client import LLMClient
+col1, col2 = st.columns(2)
 
-            # Test the API key
-            client = LLMClient(api_key.strip())
-            test_response = client.call("Say 'API key validated' in exactly 3 words.")
+with col1:
+    if st.button("Save API Key", type="primary"):
+        if api_key.strip():
+            try:
+                from core.llm_client import LLMClient
 
-            st.session_state.app_state['api_key'] = api_key.strip()
-            st.session_state.app_state['llm_client'] = client
-            st.session_state.app_state['current_step'] = 2
+                # Test the API key
+                client = LLMClient(api_key.strip())
+                test_response = client.call("Say 'API key validated' in exactly 3 words.")
 
-            st.success("API key validated! You can now proceed to upload your data.")
-            st.info("Navigate to **2. Data Upload** in the sidebar to continue.")
+                st.session_state.app_state['api_key'] = api_key.strip()
+                st.session_state.app_state['llm_client'] = client
+                st.session_state.app_state['current_step'] = 2
 
-        except Exception as e:
-            st.error(f"Failed to validate API key: {str(e)}")
-    else:
-        st.warning("Please enter a valid API key.")
+                st.success("API key validated! You can now proceed to upload your data.")
+                st.info("Navigate to **2. Data Upload** in the sidebar to continue.")
+
+            except Exception as e:
+                st.error(f"Failed to validate API key: {str(e)}")
+        else:
+            st.warning("Please enter a valid API key.")
+
+with col2:
+    if st.button("Skip (Continue without AI)", type="secondary"):
+        st.session_state.app_state['api_key'] = None
+        st.session_state.app_state['llm_client'] = None
+        st.session_state.app_state['current_step'] = 2
+        st.success("Continuing without AI features. All calculation features are available.")
+        st.info("Navigate to **2. Data Upload** in the sidebar to continue.")
 
 # Show current status
 st.markdown("---")
 st.subheader("Current Status")
 
 if st.session_state.app_state.get('api_key'):
-    st.success("✅ API key configured")
+    st.success("✅ API key configured - AI features enabled")
+elif st.session_state.app_state.get('current_step', 1) >= 2:
+    st.info("ℹ️ AI features skipped - calculations still available")
 else:
-    st.warning("⬜ API key not yet configured")
+    st.info("⬜ API key not yet configured (optional)")
 
 if st.session_state.app_state.get('coder_data'):
     st.success(f"✅ Data loaded: {st.session_state.app_state['coder_data'].n_coders} coders, {st.session_state.app_state['coder_data'].n_units} units")
