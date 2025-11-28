@@ -2,32 +2,6 @@
 
 A comprehensive Streamlit web application for computing intercoder reliability statistics, with a focus on Krippendorff's Alpha. This tool serves as both a calculator and an educational platform, featuring AI-powered explanations via Claude.
 
-## Location
-
-```
-/Users/cemalatas/Desktop/vscode/kalpha_streamlit/
-```
-
-## Quick Start
-
-### 1. Install Dependencies
-
-```bash
-cd /Users/cemalatas/Desktop/vscode/kalpha_streamlit
-pip install -r requirements.txt
-```
-
-### 2. Run the App
-
-```bash
-streamlit run app.py --server.headless true
-```
-
-### 3. Open in Browser
-
-Navigate to: **http://localhost:8501**
-
----
 
 ## What This App Does
 
