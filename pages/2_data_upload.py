@@ -7,9 +7,9 @@ st.set_page_config(page_title="Data Upload - K's Alpha Calculator", layout="wide
 
 st.title("Step 2: Upload Your Data")
 
-# Check prerequisites
-if not st.session_state.app_state.get('api_key'):
-    st.warning("Please enter your API key on the Welcome page first.")
+# Check prerequisites - user must have completed step 1 (either entered API key or skipped)
+if st.session_state.app_state.get('current_step', 1) < 2:
+    st.warning("Please complete the Welcome page first (enter API key or click Skip).")
     st.stop()
 
 st.markdown("""
