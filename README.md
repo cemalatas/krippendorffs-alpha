@@ -182,4 +182,6 @@ This app uses the same underlying `krippendorff` Python library. To verify calcu
 ## Author
 
 Cemal Ataş
+
+
 e-mail @ cemalatas101@gmail.com
