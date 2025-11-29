@@ -49,7 +49,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.subheader("Disagreement Summary by Variable")
 
 st.dataframe(
-    disag_summary.style.background_gradient(subset=['pct_disagreements'], cmap='Reds'),
+    disag_summary,
     use_container_width=True,
     hide_index=True,
 )
