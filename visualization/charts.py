@@ -11,6 +11,13 @@ import plotly.graph_objects as go
 from core.models import AlphaResult, CoderImpact, PairwiseOverall
 
 
+def truncate_label(label: str, max_length: int = 20) -> str:
+    """Truncate a label if it exceeds max_length."""
+    if len(label) > max_length:
+        return label[:max_length - 3] + "..."
+    return label
+
+
 def plot_per_variable_alpha(
     results: List[AlphaResult],
     title: str = "Krippendorff's Alpha by Variable",
@@ -172,23 +179,36 @@ def plot_confusion_matrix(
 def plot_disagreement_heatmap(
     heatmap_df: pd.DataFrame,
     title: str = "Disagreement Count by Variable and Coder Pair",
+    max_label_length: int = 25,
 ) -> go.Figure:
     """Create heatmap of disagreement counts.
 
     Args:
         heatmap_df: DataFrame with variables as index, coder pairs as columns
         title: Chart title
+        max_label_length: Maximum length for variable labels before truncation
 
     Returns:
         Plotly Figure
     """
+    # Truncate long variable names
+    truncated_vars = [truncate_label(str(v), max_label_length) for v in heatmap_df.index]
+    # Keep full names for hover
+    full_vars = heatmap_df.index.tolist()
+
     fig = px.imshow(
         heatmap_df.values,
         x=heatmap_df.columns.tolist(),
-        y=heatmap_df.index.tolist(),
+        y=truncated_vars,
         color_continuous_scale="Reds",
         title=title,
         labels={"x": "Coder Pair", "y": "Variable", "color": "Disagreements"},
+    )
+
+    # Add full variable names to hover
+    fig.update_traces(
+        hovertemplate="Variable: %{customdata}<br>Coder Pair: %{x}<br>Disagreements: %{z}<extra></extra>",
+        customdata=[[v] * len(heatmap_df.columns) for v in full_vars],
     )
 
     fig.update_layout(
