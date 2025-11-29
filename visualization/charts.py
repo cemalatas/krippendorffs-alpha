@@ -21,18 +21,21 @@ def truncate_label(label: str, max_length: int = 20) -> str:
 def plot_per_variable_alpha(
     results: List[AlphaResult],
     title: str = "Krippendorff's Alpha by Variable",
+    max_label_length: int = 25,
 ) -> go.Figure:
     """Create horizontal bar chart of alpha values per variable.
 
     Args:
         results: List of AlphaResult objects
         title: Chart title
+        max_label_length: Maximum length for variable labels before truncation
 
     Returns:
         Plotly Figure
     """
     df = pd.DataFrame([{
         "variable": r.variable,
+        "variable_truncated": truncate_label(r.variable, max_label_length),
         "alpha": r.alpha_all_coders,
         "level": r.level,
     } for r in results])
@@ -51,12 +54,13 @@ def plot_per_variable_alpha(
     fig = px.bar(
         df,
         x="alpha",
-        y="variable",
+        y="variable_truncated",
         color="level",
         orientation="h",
         color_discrete_map=color_map,
         title=title,
-        labels={"alpha": "Krippendorff's Alpha", "variable": "Variable", "level": "Level"},
+        labels={"alpha": "Krippendorff's Alpha", "variable_truncated": "Variable", "level": "Level"},
+        hover_data={"variable": True, "variable_truncated": False},
     )
 
     # Add threshold lines
