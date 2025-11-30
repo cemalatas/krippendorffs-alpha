@@ -75,13 +75,6 @@ sections = st.multiselect(
     ],
 )
 
-# Theory context toggle
-use_theory = st.checkbox(
-    "Include theory context from Krippendorff's book",
-    value=True,
-    help="Extracts relevant passages from 'Content Analysis: An Introduction to Its Methodology'",
-)
-
 st.markdown("---")
 
 # Generate report
@@ -104,32 +97,6 @@ if st.button("Generate Report", type="primary", use_container_width=True):
                 "Training": training_description,
             }
 
-            # Extract theory context if requested
-            theory_context = ""
-            if use_theory:
-                try:
-                    import pdfplumber
-
-                    book_path = "/Users/cemalatas/Desktop/vscode/kalpha_calculator/sources/Content Analysis An Introduction to Its Methodology (Klaus Krippendorff).pdf"
-
-                    with pdfplumber.open(book_path) as pdf:
-                        # Extract relevant pages (Chapter 11 on reliability, approximately pages 277-318)
-                        relevant_pages = list(range(276, 290))  # Adjust based on actual content
-                        theory_text = ""
-
-                        for page_num in relevant_pages[:5]:  # Limit to avoid token overflow
-                            if page_num < len(pdf.pages):
-                                page = pdf.pages[page_num]
-                                text = page.extract_text()
-                                if text:
-                                    theory_text += text[:2000] + "\n\n"  # Limit per page
-
-                        theory_context = theory_text[:5000]  # Limit total
-
-                except Exception as e:
-                    st.warning(f"Could not load theory content: {e}")
-                    theory_context = ""
-
             # Generate report using LLM
             if st.session_state.app_state.get('llm_client'):
                 from core.llm_client import generate_report
@@ -138,7 +105,6 @@ if st.button("Generate Report", type="primary", use_container_width=True):
                     st.session_state.app_state['llm_client'],
                     summary,
                     metadata,
-                    theory_context,
                 )
             else:
                 # Fallback: generate basic report without LLM

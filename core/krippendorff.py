@@ -1,7 +1,4 @@
-"""Krippendorff's Alpha computations.
-
-Adapted from /Users/cemalatas/Desktop/vscode/okul/intercoder_rel/icr_krippendorff_compute.py
-"""
+"""Krippendorff's Alpha computations."""
 
 import itertools
 from typing import Dict, List, Optional, Tuple
